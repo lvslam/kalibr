@@ -1,6 +1,8 @@
 #!/usr/bin/python2.7
-#Thomas Schneider, Sept 2013
-#Codes from AprilTags C++ Library (http://people.csail.mit.edu/kaess/apriltags/)
+# coding=utf-8
+# -*- coding utf-8 -*-
+# Thomas Schneider, Sept 2013
+# Codes from AprilTags C++ Library (http://people.csail.mit.edu/kaess/apriltags/)
 
 from pyx import *
 import argparse
@@ -8,6 +10,13 @@ import sys
 
 import math
 import numpy as np
+
+"""
+如果需要打印在A4纸上，可以这样弄：
+--type apriltag --nx 6 --ny 6 --tsize 0.02 --tspace 0.3
+
+20.10.23
+"""
 
 
 class AprilTagCodes:
@@ -87,10 +96,11 @@ def generateAprilTag(canvas, position, metricSize, tagSpacing, tagID, tagFamilil
         for point in corners:
             c.fill(path.rect(point[0], point[1], metricSquareSize, metricSquareSize),[color.rgb.black])
 
+
 # tagSpaceing in % of tagSize
 def generateAprilBoard(canvas, n_cols, n_rows, tagSize, tagSpacing=0.25, tagFamilily="t36h11", skipIds=None):
 
-    if (tagSpacing < 0 or tagSpacing > 1.0):
+    if tagSpacing < 0 or tagSpacing > 1.0:
         print "[ERROR]: Invalid tagSpacing specified.  [0-1.0] of tagSize"
         sys.exit(0)
 
@@ -158,14 +168,14 @@ def generateCheckerboard(canvas, n_cols, n_rows, size_cols, size_rows):
 
 
 if __name__ == "__main__":
-    usage="""
+    usage = """
     Example Aprilgrid:
         kalibr_create_target_pdf --type apriltag --nx 6 --ny 6 --tsize 0.08 --tspace 0.3
     Example Checkerboard:
         kalibr_create_target_pdf --type checkerboard --nx 6 --ny 6 --csx 0.05 --csy 0.1
     """
     
-    #setup the argument list
+    # setup the argument list
     parser = argparse.ArgumentParser(description='Generate PDFs of calibration patterns.', usage=usage)
     
     outputOptions = parser.add_argument_group('Output options')    
@@ -187,7 +197,7 @@ if __name__ == "__main__":
     checkerOptions.add_argument('--csx', type=float, default=0.05, dest='chessSzX', help='The size of one chessboard square in x direction [m] (default: %(default)s)')
     checkerOptions.add_argument('--csy', type=float, default=0.05, dest='chessSzY', help='The size of one chessboard square in y direction [m] (default: %(default)s)')
 
-    if len(sys.argv)==1:
+    if len(sys.argv) == 1:
         parser.print_help()
         sys.exit(0)
 
@@ -205,8 +215,7 @@ if __name__ == "__main__":
 
     # draw the board
     if parsed.gridType == "apriltag":
-        generateAprilBoard(canvas, parsed.n_cols, parsed.n_rows, parsed.tsize, parsed.tagspacing, parsed.tagfamiliy,
-                           parsed.skipIds)
+        generateAprilBoard(canvas, parsed.n_cols, parsed.n_rows, parsed.tsize, parsed.tagspacing, parsed.tagfamiliy, parsed.skipIds)
     elif parsed.gridType == "checkerboard":
         generateCheckerboard(c, parsed.n_cols, parsed.n_rows, parsed.chessSzX, parsed.chessSzY)
     else:
