@@ -19,7 +19,8 @@ catkin_package(
 
 ExternalProject_Add(suitesparse_src
   CMAKE_ARGS -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER} -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-  DOWNLOAD_COMMAND rm -f SuiteSparse-${VERSION}.tar.gz && wget http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-${VERSION}.tar.gz
+  # DOWNLOAD_COMMAND rm -f SuiteSparse-${VERSION}.tar.gz && wget http://faculty.cse.tamu.edu/davis/SuiteSparse/SuiteSparse-${VERSION}.tar.gz
+  DOWNLOAD_COMMAND rm -f SuiteSparse-${VERSION}.tar.gz && wget  -O SuiteSparse-${VERSION}.tar.gz http://baidu.com && cp -f /home/weng/DEV/DS/Soft/SuiteSparse-4.2.1.tar.gz .
   PATCH_COMMAND tar -xzf ../SuiteSparse-${VERSION}.tar.gz && rm -rf ../suitesparse_src-build/SuiteSparse && sed -i.bu "s/\\/usr\\/local\\/lib/..\\/lib/g" SuiteSparse/SuiteSparse_config/SuiteSparse_config.mk && sed -i.bu "s/\\/usr\\/local\\/include/..\\/include/g" SuiteSparse/SuiteSparse_config/SuiteSparse_config.mk && mv SuiteSparse ../suitesparse_src-build/
   CONFIGURE_COMMAND ""
   BUILD_COMMAND cd SuiteSparse && make library -j8 -l8
