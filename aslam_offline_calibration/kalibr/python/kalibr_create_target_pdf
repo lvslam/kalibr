@@ -1,6 +1,6 @@
 #!/usr/bin/python2.7
-# Thomas Schneider, Sept 2013
-# Codes from AprilTags C++ Library (http://people.csail.mit.edu/kaess/apriltags/)
+#Thomas Schneider, Sept 2013
+#Codes from AprilTags C++ Library (http://people.csail.mit.edu/kaess/apriltags/)
 
 from pyx import *
 import argparse
