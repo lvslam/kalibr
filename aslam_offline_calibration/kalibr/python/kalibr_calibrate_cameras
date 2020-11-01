@@ -29,14 +29,16 @@ def initBagDataset(bagfile, topic, from_to):
     print "\tNumber of images: {0}".format(reader.numImages())
     return reader
 
-#available models
-cameraModels = { 'pinhole-radtan': acvb.DistortedPinhole,
-                 'pinhole-equi':   acvb.EquidistantPinhole,
-                 'pinhole-fov':    acvb.FovPinhole,
-                 'omni-none':      acvb.Omni,
-                 'omni-radtan':    acvb.DistortedOmni,
-                 'eucm-none':      acvb.ExtendedUnified,
-                 'ds-none':        acvb.DoubleSphere}
+
+# available models
+cameraModels = {'pinhole-radtan': acvb.DistortedPinhole,
+                'pinhole-equi': acvb.EquidistantPinhole,
+                'pinhole-fov': acvb.FovPinhole,
+                'omni-none': acvb.Omni,
+                'omni-radtan': acvb.DistortedOmni,
+                'eucm-none': acvb.ExtendedUnified,
+                'ds-none': acvb.DoubleSphere}
+
 
 def signal_exit(signal, frame):
     sm.logWarn("Shutdown requested! (CTRL+C)")
@@ -384,7 +386,7 @@ def main():
                         if len(batches_to_check)>1:
                             progress_filter.sample()
                             
-            #final output
+            # final output
             print
             print
             print ".................................................................."
@@ -392,45 +394,45 @@ def main():
             print "Calibration complete."
             print
             if parsed.removeOutliers:
-                sm.logWarn("Removed {0} outlier corners.".format(len(removedOutlierCorners)) )             
+                sm.logWarn("Removed {0} outlier corners.".format(len(removedOutlierCorners)))
             print
             print "Processed {0} images with {1} images used".format(numViews, calibrator.estimator.getNumBatches())
             kcc.printParameters(calibrator)
             
-            if parsed.verbose and len(calibrator.baselines)>1:
-		        f=pl.figure(100006)
-		        kcc.plotCameraRig(calibrator.baselines, fno=f.number, clearFigure=False)
-		        pl.show()
+            if parsed.verbose and len(calibrator.baselines) > 1:
+                f=pl.figure(100006)
+                kcc.plotCameraRig(calibrator.baselines, fno=f.number, clearFigure=False)
+                pl.show()
             
-            #write to file
+            # write to file
             bagtag = parsed.bagfile.translate(None, "<>:/\|?*").replace('.bag', '', 1)
             resultFile = "camchain-" + bagtag + ".yaml"
             kcc.saveChainParametersYaml(calibrator, resultFile, graph)
             print "Results written to file: {0}".format(resultFile)
             
-            #save results to file
+            # save results to file
             resultFileTxt = "results-cam-" + bagtag + ".txt"
             kcc.saveResultTxt(calibrator, filename=resultFileTxt)
             print "  Detailed results written to file: {0}".format(resultFileTxt)
             
-            #generate report
+            # generate report
             reportFile = "report-cam-" + bagtag + ".pdf"
             G=None; 
             if numCams>1: 
                 G=graph
             kcc.generateReport(calibrator, reportFile, showOnScreen=not parsed.dontShowReport, graph=G, removedOutlierCorners=removedOutlierCorners);
-            
+
         except kcc.OptimizationDiverged:
-            restartAttempts-=1
+            restartAttempts -= 1
             sm.logWarn("Optimization diverged possibly due to a bad initialization. (Do the models fit the lenses well?)")
-            
-            if restartAttempts==0:
+
+            if restartAttempts == 0:
                 sm.logError("Max. attemps reached... Giving up...")
                 break
             else:
                 sm.logWarn("Restarting for a new attempt...")    
                 
-                #reinitialize the intrinsics
+                # reinitialize the intrinsics
                 for cam_id, cam in enumerate(cameraList):
                     print "Reinitialize the intrinsics for camera {0}".format(cam_id)
                     observations = obsdb.getAllObsCam(cam_id)
@@ -441,7 +443,8 @@ def main():
                     print "\tDistortion initialized to: %s" % cam.geometry.projection().distortion().getParameters().flatten()
                 
         else:
-            break #normal exit
+            break  # normal exit
+
 
 if __name__ == "__main__":
     main()

@@ -778,6 +778,9 @@ bool PinholeProjection<DISTORTION_T>::initializeIntrinsics(const std::vector<Gri
       }
     }
   }
+
+  // Get the median of the guesses if available.
+  // weng add. 20.10.23
   if(f_guesses.empty()) {
     const char* manual_input = std::getenv("KALIBR_MANUAL_FOCAL_LENGTH_INIT");
     if(manual_input != nullptr) {
@@ -794,7 +797,7 @@ bool PinholeProjection<DISTORTION_T>::initializeIntrinsics(const std::vector<Gri
       return false;
     }
   }
-  // Get the median of the guesses if available.
+
   double f0 = PinholeHelpers::medianOfVectorElements(f_guesses);
 
   //set the estimate
