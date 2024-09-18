@@ -13,9 +13,9 @@ echo "-------------------------------------------------------------------------"
 #rosrun kalibr kalibr_create_target_pdf --type apriltag --nx 6 --ny 6 --tsize 0.055 --tspace 0.3
 #如果需要打印在A4纸上，可以这样弄：
 # aprilgrid
-rosrun kalibr kalibr_create_target_pdf --type apriltag --nx 6 --ny 6 --tsize 0.02 --tspace 0.3 target_apriltag.pdf
+rosrun kalibr kalibr_create_target_pdf --type apriltag --nx 6 --ny 6 --tsize 0.022 --tspace 0.3 target_apriltag_start_id_0.pdf
 #rosrun kalibr kalibr_create_target_pdf --type apriltag --nx 6 --ny 6 --tsize 0.02 --tspace 0.3 --tfam t36h9 target_apriltag_2.pdf
-#rosrun kalibr kalibr_create_target_pdf --type apriltag --nx 6 --ny 6 --tsize 0.02 --tspace 0.3 --idx 36 target_apriltag_2_start_id_36.pdf
+rosrun kalibr kalibr_create_target_pdf --type apriltag --nx 6 --ny 6 --tsize 0.022 --tspace 0.3 --idx 36 target_apriltag_2_start_id_36.pdf
 
 # checkerboard
 #rosrun kalibr kalibr_create_target_pdf --type checkerboard --nx 7 --ny 6 --csx 0.04 --csy 0.04 target_checkerboard.pdf
